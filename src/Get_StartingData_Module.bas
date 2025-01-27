@@ -1,7 +1,6 @@
 Attribute VB_Name = "Get_StartingData_Module"
 Option Explicit
 
-
 'Private functions
 '------------------------------------------------------------------------------------------
 '//////////////////////////////////////////////////////////////////////////////////////////
@@ -11,13 +10,11 @@ Option Explicit
 'Sets number of students, number of groups, date for every group, room for every group, max number of students per group
 Private Function Get_DataFromMerlinTable(sh As Worksheet, LabSetting As LabSettings, NumberOfCol1Entries As Long) As LabSettings
     Dim GroupIndex As Integer, i As Integer, NumOfStudentsPerGroup As Integer
-    Dim GroupDate As String, GroupLabRoom As String, temp As String, temp2 As String, StudentName As String
+    Dim GroupDate As String, GroupLabRoom As String, temp As String, temp2 As String
     
     LabSetting.NumberOfStudents = NumberOfCol1Entries - 1
     
     For i = 2 To NumberOfCol1Entries
-        StudentName = sh.Cells(i, 1).Value & " " & sh.Cells(i, 2).Value
-        sh.Cells(i, 1).Value = StudentName
         
         temp = sh.Cells(i, 6).Value
         'Check if student selected a group

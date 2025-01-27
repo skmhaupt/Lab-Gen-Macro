@@ -18,11 +18,20 @@ Private Function Clear_Old_workbook(sh As Worksheet, NumberOfStudents, GroupColu
 End Function
 
 Private Function Clear_MerlinData(sh As Worksheet, NumberOfStudents)
+    Dim i As Integer, StudentName As String
+    
+    sh.Rows(1).Delete Shift:=xlShiftUp
+    
+    For i = 1 To NumberOfStudents
+        StudentName = sh.Cells(i, 1).Value & " " & sh.Cells(i, 2).Value
+        sh.Cells(i, 1).Value = StudentName
+    Next i
+    
     sh.Columns(6).Delete Shift:=xlShiftToLeft
     sh.Columns(4).Delete Shift:=xlShiftToLeft
     sh.Columns(3).Delete Shift:=xlShiftToLeft
     sh.Columns(2).Delete Shift:=xlShiftToLeft
-    sh.Rows(1).Delete Shift:=xlShiftUp
+    
     sh.Range("A1", sh.Cells(NumberOfStudents, 2)).Sort Key1:=Range(sh.Cells(1, 1), sh.Cells(NumberOfStudents, 1)), Order1:=xlAscending
 End Function
 

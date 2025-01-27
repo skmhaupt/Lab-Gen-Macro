@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} LabDetailesUserForm 
    Caption         =   "Lab Details"
-   ClientHeight    =   6450
-   ClientLeft      =   105
-   ClientTop       =   450
-   ClientWidth     =   5475
+   ClientHeight    =   6444
+   ClientLeft      =   108
+   ClientTop       =   456
+   ClientWidth     =   5472
    OleObjectBlob   =   "LabDetailesUserForm.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -13,6 +13,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Public NumberOfLabExcercises As Long, Lab0 As Boolean, NoEvalFirstLab As Boolean, SubjectName As String, LanguageIndex As Integer
