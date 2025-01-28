@@ -20,8 +20,8 @@ Public NumberOfGroups As Long
 Public NumberOfStudentsPerGroup As Long
 Public NumberOfGroup0Students As Long
 Public CustomExcerciseLabels As Variant
+Public TopWidth As Double
 Public UsingCustomExcerciseLabels As Boolean
-
 
 Private Sub Class_Initialize()
     SubjectName = ""
@@ -35,6 +35,7 @@ Private Sub Class_Initialize()
     NumberOfGroups = 0
     NumberOfStudentsPerGroup = 0
     UsingCustomExcerciseLabels = False
+    TopWidth = 8.11
 End Sub
 
 Public Sub set_LabSettings(arg_SubjectName As String, arg_NumberOfLabExercises As Long, arg_lab0 As Boolean, arg_noEvalFirstLab As Boolean, arg_CustomExcerciseLabels As Variant, arg_UsingCustomExcerciseLabels As Boolean)

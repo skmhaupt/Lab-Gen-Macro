@@ -61,6 +61,7 @@ End Function
 
 'Formating for main sheet. Main and small table
 Private Function Set_TabelFormating(sh As Worksheet, LabSetting As LabSettings, LanguageSetting As LanguageSettings)
+    Dim i As Integer
     'Set row heights and column widths
     sh.Cells.RowHeight = 18
     sh.Cells.ColumnWidth = 8.11
@@ -75,6 +76,16 @@ Private Function Set_TabelFormating(sh As Worksheet, LabSetting As LabSettings, 
     sh.Columns(1).AutoFit
     sh.Range(sh.Columns(LabSetting.GroupColumnIndex - 3), sh.Columns(LabSetting.GroupColumnIndex + 1)).AutoFit
     sh.Columns(LabSetting.GroupColumnIndex + 5).AutoFit
+    
+    For i = 2 To LabSetting.Get_TotalNumberOfExercises + 1
+        sh.Columns(i).AutoFit
+        If sh.Columns(i).ColumnWidth > LabSetting.TopWidth Then
+            LabSetting.TopWidth = sh.Columns(i).ColumnWidth
+        End If
+    Next i
+    For i = 2 To LabSetting.Get_TotalNumberOfExercises + 1
+        sh.Columns(i).ColumnWidth = LabSetting.TopWidth
+    Next i
     
     'Set label row color
     sh.Range("A1", sh.Cells(1, LabSetting.GroupColumnIndex + 1)).Interior.ColorIndex = 15

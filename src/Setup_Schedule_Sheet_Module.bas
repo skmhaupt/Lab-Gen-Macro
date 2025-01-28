@@ -31,6 +31,7 @@ Public Function Make_ScheduleTabel(sh As Worksheet, LabSetting As LabSettings, L
     With sh3.Cells(3, 5)
         .Value = LabSetting.SubjectName
         .Font.Bold = True
+        .Font.Size = 15
         .HorizontalAlignment = xlCenter
     End With
     

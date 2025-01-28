@@ -7,7 +7,7 @@ Option Explicit
 '------------------------------------------------------------------------------------------
 
 
-Private Function Make_GroupTables_Sheet(sh1 As Worksheet, LanguageSetting As LanguageSettings) As Collection
+Private Function Make_GroupTables_Sheet(sh1 As Worksheet, LanguageSetting As LanguageSettings, TopWidth As Double) As Collection
     Dim sh2 As Worksheet, shOld As Worksheet, i As Integer, Abort As Boolean
     Dim ReturnData As New Collection
     'Check if old table sheet exists and make backup
@@ -31,6 +31,7 @@ Private Function Make_GroupTables_Sheet(sh1 As Worksheet, LanguageSetting As Lan
     Set sh2 = ActiveWorkbook.Sheets.Add(, sh1)
     sh2.Name = LanguageSetting.Sheet2Name
     sh2.Cells.RowHeight = 18
+    sh2.Cells.ColumnWidth = TopWidth
     
     ReturnData.Add Item:=sh2, Key:="sheet2"
     ReturnData.Add Item:=Abort, Key:="abort"
@@ -202,7 +203,7 @@ Public Function Make_Group_Tables(sh1 As Worksheet, LabSetting As LabSettings, L
     TotalNumberOfExercises = LabSetting.Get_TotalNumberOfExercises
     
     'Make sheet and backup old
-    Set ReturnData = Make_GroupTables_Sheet(sh1, LanguageSetting)
+    Set ReturnData = Make_GroupTables_Sheet(sh1, LanguageSetting, LabSetting.TopWidth)
     If ReturnData.Item("abort") Then
         Make_Group_Tables = True
         Exit Function
@@ -215,10 +216,14 @@ Public Function Make_Group_Tables(sh1 As Worksheet, LabSetting As LabSettings, L
     With sh2.Range(sh2.Cells(2, 5), sh2.Cells(2, 5))
         .Value = LabSetting.SubjectName
         .Font.Bold = True
+        .Font.Size = 15
+        .HorizontalAlignment = xlCenter
     End With
-    With sh2.Range(sh2.Cells(3, 4), sh2.Cells(3, 4))
+    With sh2.Range(sh2.Cells(3, 5), sh2.Cells(3, 5))
         .Value = "LABORATORIJSKE VJEŽBE FESB"
         .Font.Bold = True
+        .Font.Size = 15
+        .HorizontalAlignment = xlCenter
     End With
     
     sh2.Cells(2, ((TotalNumberOfExercises + 2) * 2 + 4)).Value = "G0"
