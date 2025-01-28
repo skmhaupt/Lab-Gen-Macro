@@ -7,23 +7,35 @@ Option Explicit
 '------------------------------------------------------------------------------------------
 
 
-Private Function Make_GroupTables_Sheet(sh1 As Worksheet, LanguageSetting As LanguageSettings) As Worksheet
-    Dim sh2 As Worksheet, shOld As Worksheet
+Private Function Make_GroupTables_Sheet(sh1 As Worksheet, LanguageSetting As LanguageSettings) As Collection
+    Dim sh2 As Worksheet, shOld As Worksheet, i As Integer, Abort As Boolean
+    Dim ReturnData As New Collection
     'Check if old table sheet exists and make backup
     'Work in progress
-    If ActiveWorkbook.Sheets.Count = 2 Then
+    Abort = False
+    For i = 1 To ActiveWorkbook.Sheets.Count
+        If ActiveWorkbook.Sheets(i).Name Like "*-Backup" Then
+            MsgBox "Please delete old backup sheets and restart macro. From like."
+            Abort = True
+            ReturnData.Add Item:=Abort, Key:="abort"
+            Set Make_GroupTables_Sheet = ReturnData
+            Exit Function
+        End If
+    Next i
+    
+    If ActiveWorkbook.Sheets.Count > 1 Then
         Set shOld = ActiveWorkbook.Sheets(2)
         shOld.Name = shOld.Name & "-Backup"
-    ElseIf ActiveWorkbook.Sheets.Count > 2 Then
-        MsgBox "Please delete old backup sheet and restart macro."
-        Exit Function
     End If
            
     Set sh2 = ActiveWorkbook.Sheets.Add(, sh1)
     sh2.Name = LanguageSetting.Sheet2Name
     sh2.Cells.RowHeight = 18
     
-    Set Make_GroupTables_Sheet = sh2
+    ReturnData.Add Item:=sh2, Key:="sheet2"
+    ReturnData.Add Item:=Abort, Key:="abort"
+    
+    Set Make_GroupTables_Sheet = ReturnData
 End Function
 
 
@@ -182,22 +194,23 @@ End Function
 '------------------------------------------------------------------------------------------
 
 '
-Public Function Make_Group_Tables(sh1 As Worksheet, LabSetting As LabSettings, LanguageSetting As LanguageSettings)
-    Dim sh2 As Worksheet
+Public Function Make_Group_Tables(sh1 As Worksheet, LabSetting As LabSettings, LanguageSetting As LanguageSettings) As Boolean
+    Dim sh2 As Worksheet, ReturnData As Collection
     Dim TotalNumberOfExercises As Long
     Dim GroupTables_Dict As Scripting.Dictionary
     
     TotalNumberOfExercises = LabSetting.Get_TotalNumberOfExercises
     
     'Make sheet and backup old
-    Set sh2 = Make_GroupTables_Sheet(sh1, LanguageSetting)
-    If sh2 Is Nothing Then
+    Set ReturnData = Make_GroupTables_Sheet(sh1, LanguageSetting)
+    If ReturnData.Item("abort") Then
+        Make_Group_Tables = True
         Exit Function
     End If
+    Set sh2 = ReturnData.Item("sheet2")
 
     'Set GroupTables_Dict
     Set GroupTables_Dict = Set_GroupTables_Dict(LabSetting)
-    
     
     With sh2.Range(sh2.Cells(2, 5), sh2.Cells(2, 5))
         .Value = LabSetting.SubjectName
@@ -218,6 +231,8 @@ Public Function Make_Group_Tables(sh1 As Worksheet, LabSetting As LabSettings, L
     Call Fill_GroupTables(sh1, sh2, LabSetting, GroupTables_Dict)
     
     Call Format_Sheet2(sh1, sh2, LabSetting)
+    
+    Make_Group_Tables = False
 End Function
 
 

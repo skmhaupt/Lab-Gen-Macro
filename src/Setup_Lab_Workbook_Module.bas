@@ -9,6 +9,7 @@ Sub Make_Labs_Workbook()
     Dim LabSetting As New LabSettings
     Dim LanguageSetting As New LanguageSettings
     Dim StartingData As Collection, NewData As Collection
+    Dim Abort As Boolean
     
     sh.Unprotect
     
@@ -32,7 +33,9 @@ Sub Make_Labs_Workbook()
     'Setup workbook
     Call Setup_Main_Sheet(sh, LabSetting, LanguageSetting)
     
-    Call Make_Group_Tables(sh, LabSetting, LanguageSetting)
+    Abort = Make_Group_Tables(sh, LabSetting, LanguageSetting)
+    
+    Call Make_ScheduleTabel(sh, LabSetting, LanguageSetting, Abort)
     
     sh.Activate
     ActiveWindow.ScrollRow = 20
