@@ -7,7 +7,7 @@ Excel macro for creating a lab attendance workbook
 ```
 git clone https://github.com/skmhaupt/Lab-Gen-Macro.git
 ```
-2. Move or copy the .xlam file to C:\Users\\<user>\AppData\Roaming\Microsoft\AddIns
+2. Move or copy the .xlam file to C:\Users\\\<user>\AppData\Roaming\Microsoft\AddIns
 3. Right click the .xlam file, ...
 4. Open a new or existing workbook
 5. Go to the developer tab (enable if not visible)
